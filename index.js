@@ -1,5 +1,3 @@
-const { processBlock } = require('./process-block.js');
-
 const text = `7
 lobo guara
 do mato
@@ -59,7 +57,7 @@ bulldog
 luciano fabio romario mateus astrogildo bruno bianca
 `;
 
-const lines = text.split("\n");
+const lines = text.split('\n');
 
 while (true) {
   const animals = [];
@@ -79,5 +77,20 @@ while (true) {
     lines.shift();
   }
 
-  processBlock(animals);
+  console.log(
+    animals
+      .filter(animal => animal.type === 'cachorro')
+      .map(animal => ({
+        ...animal,
+        names: animal.name.split(' '),
+      }))
+      .filter(animal => animal.names.length >= 2)
+      .map(animal => ({
+        ...animal,
+        firstBreedChar: animal.breed[0],
+        firstNameChars: animal.names.map(name => name[0]),
+      }))
+      .filter(animal => animal.firstNameChars.includes(animal.firstBreedChar))
+      .length
+  );
 }
